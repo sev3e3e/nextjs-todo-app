@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -46,10 +46,60 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  tasks         Task[]
 }
 
 model VerificationToken {
   identifier String
   token      String   @unique
   expires    DateTime
+}
+
+// App Models
+model Task {
+  id             Int       @id @default(autoincrement())
+  userId         String?
+  taskStatusId   Int
+  taskPriorityId Int
+  name           String
+  body           String?
+  expire_at      DateTime?
+  tags           Tag[]
+
+  priority TaskPriority @relation(fields: [taskPriorityId], references: [id])
+  status   TaskStatus   @relation(fields: [taskStatusId], references: [id])
+  user     User?        @relation(fields: [userId], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Tag {
+  id    Int    @id @default(autoincrement())
+  name  String
+  tasks Task[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+// Enum
+// https://zenn.dev/convers39/articles/0e58e17d0da43f
+model TaskStatus {
+  id     Int    @id @default(autoincrement())
+  status String
+  tasks  Task[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+// Enum
+model TaskPriority {
+  id       Int    @id @default(autoincrement())
+  priority String
+  tasks    Task[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
