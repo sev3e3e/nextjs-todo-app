@@ -8,6 +8,8 @@ import bcrypt from "bcrypt";
 
 export const AuthOptions = {
     // adapter: PrismaAdapter(prisma),
+
+    secret: process.env.NEXTAUTH_SECRET || "",
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_CLIENT_ID || "",
@@ -40,6 +42,15 @@ export const AuthOptions = {
             },
         }),
     ],
+
+    callbacks: {
+        async session({ session, token }) {
+            if (session?.user) {
+                session.user.id = token.sub;
+            }
+            return session;
+        },
+    },
 };
 
 export default NextAuth(AuthOptions);
