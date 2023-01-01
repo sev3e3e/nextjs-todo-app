@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +20,28 @@ async function main() {
             { priority: "Normal" },
             { priority: "Low" },
         ],
+    });
+
+    const saltRounds = 10;
+    const password = "password";
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const users = await prisma.user.createMany({
+        data: [
+            {
+                id: "clccb60s30003356kjyktmo2g",
+                email: "test@test.com",
+                name: "テストユーザ",
+                crypted_password: hashedPassword,
+            },
+            {
+                id: "clccb60s30005356kkwhdgns3",
+                email: "test2@test.com",
+                name: "テストユーザ2",
+                crypted_password: hashedPassword,
+            },
+        ],
+        skipDuplicates: true,
     });
 }
 
