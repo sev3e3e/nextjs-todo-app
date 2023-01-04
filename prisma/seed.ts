@@ -1,7 +1,6 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import bcrypt from "bcrypt";
-
-const prisma = new PrismaClient();
+import prisma from "./client";
 
 async function main() {
     const status = await prisma.taskStatus.createMany({

@@ -21,11 +21,7 @@ export async function getSession(cookie: string): Promise<Session | null> {
     return Object.keys(session).length > 0 ? session : null;
 }
 
-export default async function Layout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+async function Layout({ children }: { children: React.ReactNode }) {
     const session = await getSession(headers().get("cookie") ?? "");
 
     return (
@@ -37,3 +33,5 @@ export default async function Layout({
         </html>
     );
 }
+
+export default Layout;
