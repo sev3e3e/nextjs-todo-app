@@ -6,6 +6,7 @@ import { Session } from "next-auth";
 import TaskItem from "../components/taskitem";
 import prisma from "../prisma/client";
 import DebugButton from "./debugButton";
+import superjson from "superjson";
 
 async function Page() {
     const session: Session | null = await unstable_getServerSession(
@@ -33,9 +34,12 @@ async function Page() {
 
                 <div className="py-10">
                     <div className="flex flex-col gap-3">
-                        {tasks?.map((task) => (
-                            <TaskItem task={task} key={task.id} />
-                        ))}
+                        {tasks?.map((task) => {
+                            const taskJson = superjson.stringify(task);
+                            return (
+                                <TaskItem taskJson={taskJson} key={task.id} />
+                            );
+                        })}
                     </div>
                 </div>
             </>

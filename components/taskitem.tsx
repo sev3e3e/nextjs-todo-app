@@ -12,13 +12,15 @@ import { Fade, Modal } from "@mui/material";
 import { deleteTask } from "../lib/db";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import superjson from "superjson";
 
 type ExtendTask = Task & {
     priority: TaskPriority;
     status: TaskStatus;
 };
 
-function TaskItem({ task }: { task: ExtendTask }) {
+function TaskItem({ taskJson }: { taskJson: string }) {
+    const task: ExtendTask = superjson.parse(taskJson);
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => {

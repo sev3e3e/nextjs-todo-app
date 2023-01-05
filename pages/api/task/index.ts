@@ -49,7 +49,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             },
         });
 
-        res.send(task);
+        res.json(task);
     } else {
         res.status(400).end();
     }

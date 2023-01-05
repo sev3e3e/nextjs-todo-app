@@ -64,7 +64,7 @@ function AddTaskForm({ tags }: { tags: Tag[] }) {
                                 options={tags}
                                 getOptionLabel={(tag) => tag.name}
                                 onChange={(event, values) => onChange(values)}
-                                value={value}
+                                // value={value}
                                 renderInput={(params) => (
                                     <TextField
                                         {...params}

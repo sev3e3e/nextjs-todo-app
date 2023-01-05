@@ -1,10 +1,11 @@
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "../../../prisma/client";
 
 // import bcrypt from "bcrypt";
 import bcrypt from "bcryptjs";
+import { JWT } from "next-auth/jwt";
 
 export const AuthOptions = {
     // adapter: PrismaAdapter(prisma),
@@ -44,9 +45,9 @@ export const AuthOptions = {
     ],
 
     callbacks: {
-        async session({ session, token }) {
+        async session({ session, token }: { session: Session; token: JWT }) {
             if (session?.user) {
-                session.user.id = token.sub;
+                session.user.id = token.sub || "";
             }
             return session;
         },
