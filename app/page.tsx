@@ -35,9 +35,12 @@ async function Page() {
                 <div className="py-10">
                     <div className="flex flex-col gap-3">
                         {tasks?.map((task) => {
-                            const taskJson = superjson.stringify(task);
                             return (
-                                <TaskItem taskJson={taskJson} key={task.id} />
+                                <TaskItem
+                                    task={task}
+                                    key={task.id}
+                                    data-superjson
+                                />
                             );
                         })}
                     </div>

@@ -7,7 +7,7 @@ async function AddTaskPage() {
     return (
         <div>
             <div>Add Task Page</div>
-            <AddTaskForm tags={tags} />
+            <AddTaskForm tags={tags} data-superjson />
         </div>
     );
 }

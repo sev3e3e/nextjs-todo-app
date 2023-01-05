@@ -19,8 +19,7 @@ type ExtendTask = Task & {
     status: TaskStatus;
 };
 
-function TaskItem({ taskJson }: { taskJson: string }) {
-    const task: ExtendTask = superjson.parse(taskJson);
+function TaskItem({ task }: { task: ExtendTask }) {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
