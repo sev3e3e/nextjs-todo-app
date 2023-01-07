@@ -65,14 +65,16 @@ function AddTaskForm({ tags }: { tags: Tag[] }) {
                                 getOptionLabel={(tag) => tag.name}
                                 onChange={(event, values) => onChange(values)}
                                 // value={value}
-                                renderInput={(params) => (
-                                    <TextField
-                                        {...params}
-                                        label="tag"
-                                        variant="outlined"
-                                        onChange={onChange}
-                                    />
-                                )}
+                                renderInput={(params) => {
+                                    return (
+                                        <TextField
+                                            {...params}
+                                            label="tag"
+                                            variant="outlined"
+                                            onChange={onChange}
+                                        />
+                                    );
+                                }}
                             />
                         )}
                     ></Controller>

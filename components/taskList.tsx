@@ -1,4 +1,3 @@
-import superjson from "superjson";
 import prisma from "../prisma/client";
 import { Session, unstable_getServerSession } from "next-auth";
 import { AuthOptions } from "../pages/api/auth/[...nextauth]";

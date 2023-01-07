@@ -1,15 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { deleteTask } from "../../../lib/db";
 
 import { unstable_getServerSession } from "next-auth/next";
 import { AuthOptions } from "../auth/[...nextauth]";
 import { Session } from "next-auth";
 import prisma from "../../../prisma/client";
-import { Task, TaskPriority, TaskStatus } from "@prisma/client";
 import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
 import "dayjs/locale/ja";
+import { deleteTask } from "../../../lib/db";
 
 export type formInputs = {
     id: number;

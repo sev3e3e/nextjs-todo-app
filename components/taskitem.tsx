@@ -6,18 +6,15 @@ import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import "dayjs/locale/ja";
-import Link from "next/link";
 
 dayjs.locale("ja");
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-import { SyntheticEvent, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { Fade, Modal } from "@mui/material";
-import { deleteTask } from "../lib/db";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import superjson from "superjson";
 
 type ExtendTask = Task & {
     priority: TaskPriority;

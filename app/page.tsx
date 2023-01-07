@@ -6,7 +6,6 @@ import { Session } from "next-auth";
 import TaskItem from "../components/taskitem";
 import prisma from "../prisma/client";
 import DebugButton from "./debugButton";
-import superjson from "superjson";
 
 async function Page() {
     const session: Session | null = await unstable_getServerSession(
