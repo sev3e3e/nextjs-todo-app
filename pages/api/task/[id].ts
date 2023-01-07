@@ -5,6 +5,21 @@ import { unstable_getServerSession } from "next-auth/next";
 import { AuthOptions } from "../auth/[...nextauth]";
 import { Session } from "next-auth";
 import prisma from "../../../prisma/client";
+import { Task, TaskPriority, TaskStatus } from "@prisma/client";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+import "dayjs/locale/ja";
+
+export type formInputs = {
+    id: number;
+    // htmlのselectのvalueオプションが文字列のみのため
+    priority: string;
+    status: string;
+
+    body: string;
+    date: string;
+};
 
 function isValidNumber(str: string): boolean {
     return !isNaN(Number(str));
@@ -29,7 +44,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
             if (isValidNumber(id)) {
                 const parsedId = Number.parseInt(id);
-                // idがsession userの管理下か
                 const isExistTasks = !!prisma.user.findFirst({
                     where: {
                         tasks: {
@@ -46,6 +60,37 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 res.status(200).end();
             }
 
+            break;
+
+        case "PATCH":
+            const task: formInputs = JSON.parse(req.body);
+            console.log(task);
+
+            const prismaResponse = await prisma.task.update({
+                where: {
+                    id: task.id,
+                },
+                data: {
+                    body: task.body,
+
+                    status: {
+                        connect: {
+                            id: parseInt(task.status),
+                        },
+                    },
+                    priority: {
+                        connect: {
+                            id: parseInt(task.priority),
+                        },
+                    },
+                    expire_at: dayjs(task.date).toDate(),
+                },
+                include: {
+                    status: true,
+                    priority: true,
+                },
+            });
+            res.json(prismaResponse);
             break;
         default:
             res.status(400).end();

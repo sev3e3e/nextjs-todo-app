@@ -36,11 +36,9 @@ async function Page() {
                     <div className="flex flex-col gap-3">
                         {tasks?.map((task) => {
                             return (
-                                <TaskItem
-                                    task={task}
-                                    key={task.id}
-                                    data-superjson
-                                />
+                                <div key={`taskitem-${task.id}`}>
+                                    <TaskItem task={task} data-superjson />
+                                </div>
                             );
                         })}
                     </div>
